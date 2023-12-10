@@ -2,7 +2,7 @@ const express = require("express");
 // this is dotenv config imoirt to access environment variables
 require("dotenv").config();
 const router = express.Router();
-const {validationResult, body } = require("express-validator"); //query, add this if you want to use query
+const { validationResult, body } = require("express-validator"); //query, add this if you want to use query
 const bcrypt = require("bcryptjs");
 var jwt = require("jsonwebtoken");
 var fetchuser = require("../middleware/fetchuser");
@@ -78,7 +78,7 @@ router.post(
 
     const { email, password } = req.body;
     try {
-      let user = await User.findOne({email});
+      let user = await User.findOne({ email });
       if (!user) {
         return res.status(400).json({ error: "Login with proper credentials" });
       }
@@ -104,14 +104,14 @@ router.post(
 
 // endpoint to fetch user information using the fetchuser middleware
 
-router.post('/getuser', fetchuser, async(req,res)=>{
+router.post("/getuser", fetchuser, async (req, res) => {
   try {
     const userId = req.user.id;
-    const user = await User.findById(userId).select('-password');
+    const user = await User.findById(userId).select("-password");
     res.send(user);
   } catch (error) {
     console.log(error);
-    res.status(500).send({error: 'Internal Server Error'});
+    res.status(500).send({ error: "Internal Server Error" });
   }
 });
 module.exports = router;
