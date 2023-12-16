@@ -37,8 +37,8 @@ const Note = () => {
 
   return (
     <>
-      <EditModal showModal={showModal} closeModal={closeModal} handleFormSubmit={handleFormSubmit} />
       <div className="container my-4">
+        <EditModal showModal={showModal} closeModal={closeModal} handleFormSubmit={handleFormSubmit} />
         <AddNote />
         <h1>Your Notes</h1>
         <div className="row row-cols-1 row-cols-md-3 ">
