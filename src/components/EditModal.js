@@ -1,7 +1,11 @@
-import React from "react";
+import React,{useContext} from "react";
+import noteContext from "../context/notes/NotesContext";
 import "../css/index.css"; // Import your CSS file
 
-const EditModal = ({ showModal, closeModal, handleFormSubmit }) => {
+
+const EditModal = (props) => {
+   const { notes, getNotes } = useContext(noteContext);
+  const { showModal, closeModal, handleFormSubmit, onChange, note } = props;
   const handleCloseModal = () => {
     closeModal(); // Call the closeModal function passed via props
   };
@@ -9,6 +13,10 @@ const EditModal = ({ showModal, closeModal, handleFormSubmit }) => {
   const handleSubmit = (event) => {
     handleFormSubmit(event); // Call the handleFormSubmit function passed via props
   };
+
+  const onchange = (event) => {
+    onChange(event);
+  }
 
   return (
     <div>
@@ -25,15 +33,15 @@ const EditModal = ({ showModal, closeModal, handleFormSubmit }) => {
               <form onSubmit={handleSubmit} id="editNoteForm">
                 <div className="form-group">
                   <label htmlFor="title">Title:</label>
-                  <input type="text" id="title" name="title" required />
+                  <input type="text" id="title" name="edittitle" value={note.edittitle} onChange={onchange} required />
                 </div>
                 <div className="form-group">
                   <label htmlFor="description">Description:</label>
-                  <textarea id="description" name="description" required></textarea>
+                  <textarea id="description" name="editdescription" value={note.editdescription} onChange={onchange} required></textarea>
                 </div>
                 <div className="form-group">
                   <label htmlFor="tag">Tag:</label>
-                  <input type="text" id="tag" name="tag" />
+                  <input type="text" id="tag" value={note.edittag} onChange={onchange} name="edittag" />
                 </div>
                 <div className="modal-footer">
                   <button type="button" className="cancel-btn" onClick={handleCloseModal}>

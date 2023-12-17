@@ -5,8 +5,9 @@ import AddNote from "./AddNote";
 import EditModal from "./EditModal";
 
 const Note = () => {
-  const { notes, getNotes } = useContext(noteContext);
+  const { notes, getNotes,editNote } = useContext(noteContext);
   const [showModal, setShowModal] = useState(false);
+  const [note, setNote] = useState({id:"", title: "", description: "", tag: "" });
 
   useEffect(() => {
     getNotes();
@@ -23,27 +24,30 @@ const Note = () => {
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
-
-    const title = event.target.elements.title.value;
-    const description = event.target.elements.description.value;
-    const tag = event.target.elements.tag.value;
-
-    console.log("Title:", title);
-    console.log("Description:", description);
-    console.log("Tag:", tag);
-
+    console.log("updatng the note",note);
+    editNote(note.id, note.edittitle, note.editdescription, note.edittag);
     closeModal();
   };
+  const onChange = (e) => {
+    setNote({
+      ...note,
+      [e.target.name]: e.target.value,
+    });
+  };
 
+  const updateNote = (curentNote) => {
+    setNote({ id: curentNote._id, edittitle: curentNote.title, editdescription: curentNote.description, edittag: curentNote.tag });
+  };
   return (
     <>
       <div className="container my-4">
-        <EditModal showModal={showModal} closeModal={closeModal} handleFormSubmit={handleFormSubmit} />
+        
+        <EditModal showModal={showModal} closeModal={closeModal} handleFormSubmit={handleFormSubmit} onChange={onChange} note={note} />
         <AddNote />
         <h1>Your Notes</h1>
         <div className="row row-cols-1 row-cols-md-3 ">
           {notes.map((note) => {
-            return <NoteItem note={note} key={note._id} openModal={openModal} />;
+            return <NoteItem note={note} key={note._id} updateNote={updateNote} openModal={openModal} />;
           })}
         </div>
       </div>

@@ -5,7 +5,7 @@ import Editicon from "remixicon-react/EditBoxLineIcon";
 // import EditModal from "./EditModal";
 
 const NoteItem = (props) => {
-  const { note, openModal } = props;
+  const { note, openModal,updateNote } = props;
   const { deleteNote } = useContext(noteContext);
 
   return (
@@ -26,6 +26,7 @@ const NoteItem = (props) => {
                   className="mouse"
                   onClick={() => {
                     openModal(); // Invoke the openModal function passed via props
+                    updateNote(note);
                   }}
                 />
               </div>
