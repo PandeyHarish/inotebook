@@ -50,11 +50,11 @@ const NoteState = (props) => {
         __v,
       };
 
-      setNotes((prevNotes) => [...prevNotes, note]);
       // Update the state using the functional form of setState to ensure you're working with the latest state
+      setNotes((prevNotes) => [...prevNotes, note]);
     } catch (error) {
-      console.error("Error adding note:", error.message);
       // Handle error: show a message to the user, log, or perform necessary actions
+      console.error("Error adding note:", error.message);
     }
   };
 

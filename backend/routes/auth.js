@@ -11,6 +11,7 @@ const User = require("../model/User");
 // Access JWT secret from environment variables
 
 const secret = process.env.JWT_SECRET;
+
 // create a user usig: POST "/api/auth/"  does not require authentication
 router.post(
   "/createUser",
@@ -28,11 +29,13 @@ router.post(
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
+    let success = false;
 
     try {
       // check weather user email already exists
       let user = await User.findOne({ email: req.body.email });
       if (user) {
+        success = false;
         return res.status(400).json({ error: "sorry email already exists" });
       }
       const salt = await bcrypt.genSalt(10);
@@ -49,9 +52,11 @@ router.post(
         },
       };
       const authToken = jwt.sign(data, secret);
-      res.json({ authToken });
+      success = true;
+      res.json({ authToken, success });
     } catch (error) {
       // error is logged in the console as well as a new Response is sent to the server with the error message
+
       console.error(error.message);
       res.status(500).send("Internal Server Error");
     }
@@ -72,7 +77,9 @@ router.post(
   ],
   async (req, res) => {
     const errors = validationResult(req);
+    let success = false;
     if (!errors.isEmpty()) {
+      success = false;
       return res.status(400).json({ errors: errors.array() });
     }
 
@@ -80,12 +87,14 @@ router.post(
     try {
       let user = await User.findOne({ email });
       if (!user) {
-        return res.status(400).json({ error: "Login with proper credentials" });
+        success = false;
+        return res.status(400).json({ error: "Login with proper credentials", success });
       }
 
       const passwordCompare = await bcrypt.compare(password, user.password);
       if (!passwordCompare) {
-        return res.status(400).json({ error: "Login with proper credentials" });
+        success = false;
+        return res.status(400).json({ error: "Login with proper credentials", success });
       }
 
       const data = {
@@ -94,7 +103,8 @@ router.post(
         },
       };
       const authToken = jwt.sign(data, secret);
-      res.json({ authToken });
+      success = true;
+      res.json({ authToken, success });
     } catch (error) {
       console.log(error);
       res.status(500).send("Internal Server Error");
