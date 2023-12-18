@@ -24,7 +24,6 @@ const Note = () => {
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
-    console.log("updatng the note",note);
     editNote(note.id, note.edittitle, note.editdescription, note.edittag);
     closeModal();
   };
@@ -41,10 +40,13 @@ const Note = () => {
   return (
     <>
       <div className="container my-4">
-        
         <EditModal showModal={showModal} closeModal={closeModal} handleFormSubmit={handleFormSubmit} onChange={onChange} note={note} />
         <AddNote />
+
         <h1>Your Notes</h1>
+        <div className="container text-center ">
+          <h4 className="my-20">{notes.length === 0 && "No notes to display"}</h4>
+        </div>
         <div className="row row-cols-1 row-cols-md-3 ">
           {notes.map((note) => {
             return <NoteItem note={note} key={note._id} updateNote={updateNote} openModal={openModal} />;
