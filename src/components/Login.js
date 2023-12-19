@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import "../css/login.css";
 import { useNavigate } from "react-router-dom";
 
-const Login = () => {
+const Login = (props) => {
+  const { showAlert } = props;
   const host = "http://localhost:5000";
   const [credentials, setCredentials] = useState({ email: "", password: "" });
   let history = useNavigate();
@@ -22,6 +23,9 @@ const Login = () => {
     if (json.success) {
       localStorage.setItem("auth-token", json.authToken);
       history("/");
+      showAlert("Login successful", "success");
+    } else {
+      showAlert("Please check your credentials", "error");
     }
   };
   return (

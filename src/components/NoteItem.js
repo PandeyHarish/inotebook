@@ -5,7 +5,7 @@ import Editicon from "remixicon-react/EditBoxLineIcon";
 // import EditModal from "./EditModal";
 
 const NoteItem = (props) => {
-  const { note, openModal,updateNote } = props;
+  const { note, openModal,updateNote,showAlert } = props;
   const { deleteNote } = useContext(noteContext);
 
   return (
@@ -20,6 +20,7 @@ const NoteItem = (props) => {
                   className="mx-3 mouse"
                   onClick={() => {
                     deleteNote(note._id);
+                    showAlert("Note deleted successfully", "success");
                   }}
                 />
                 <Editicon

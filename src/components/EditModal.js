@@ -1,10 +1,10 @@
 import React,{useContext} from "react";
 import noteContext from "../context/notes/NotesContext";
-import "../css/index.css"; // Import your CSS file
+import "../css/index.css"; 
 
 
 const EditModal = (props) => {
-   const { notes, getNotes } = useContext(noteContext);
+   const { notes, getNotes} = useContext(noteContext);
   const { showModal, closeModal, handleFormSubmit, onChange, note } = props;
   const handleCloseModal = () => {
     closeModal(); // Call the closeModal function passed via props
@@ -12,6 +12,7 @@ const EditModal = (props) => {
 
   const handleSubmit = (event) => {
     handleFormSubmit(event); // Call the handleFormSubmit function passed via props
+    
   };
 
   const onchange = (event) => {
