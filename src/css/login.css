@@ -20,7 +20,7 @@
 .input-group {
   display: block;
 }
-input[type="email"],
+input[type="email"],input[type="text"],
 input[type="password"] {
   width: 100%;
   padding: 8px;
