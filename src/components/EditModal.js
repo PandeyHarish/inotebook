@@ -1,10 +1,7 @@
-import React,{useContext} from "react";
-import noteContext from "../context/notes/NotesContext";
-import "../css/index.css"; 
-
+import React from "react";
+import "../css/index.css";
 
 const EditModal = (props) => {
-   const { notes, getNotes} = useContext(noteContext);
   const { showModal, closeModal, handleFormSubmit, onChange, note } = props;
   const handleCloseModal = () => {
     closeModal(); // Call the closeModal function passed via props
@@ -12,12 +9,11 @@ const EditModal = (props) => {
 
   const handleSubmit = (event) => {
     handleFormSubmit(event); // Call the handleFormSubmit function passed via props
-    
   };
 
   const onchange = (event) => {
     onChange(event);
-  }
+  };
 
   return (
     <div>

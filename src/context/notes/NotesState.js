@@ -14,8 +14,7 @@ const NoteState = (props) => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "auth-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjU3MzA2ZDBjNmY5MjcyNmM1ZjhhNDBjIn0sImlhdCI6MTcwMjEyNTU1OH0.In_mAVK3jKBfYcyjiAO7Xf3-JfFZH0YvtIiaVVhfIoM",
+        "auth-token": localStorage.getItem("auth-token"),
       },
     });
     const json = await response.json();
@@ -28,8 +27,7 @@ const NoteState = (props) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "auth-token":
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjU3MzA2ZDBjNmY5MjcyNmM1ZjhhNDBjIn0sImlhdCI6MTcwMjEyNTU1OH0.In_mAVK3jKBfYcyjiAO7Xf3-JfFZH0YvtIiaVVhfIoM",
+          "auth-token": localStorage.getItem("auth-token"),
         },
         body: JSON.stringify({ title, description, tag }),
       });
@@ -58,19 +56,17 @@ const NoteState = (props) => {
     }
   };
 
-
   // update notes
   const editNote = async (id, title, description, tag) => {
-    const response = await fetch(`${host}/api/notes/updatenote/${id}`, {
+    await fetch(`${host}/api/notes/updatenote/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        "auth-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjU3MzA2ZDBjNmY5MjcyNmM1ZjhhNDBjIn0sImlhdCI6MTcwMjEyNTU1OH0.In_mAVK3jKBfYcyjiAO7Xf3-JfFZH0YvtIiaVVhfIoM",
+        "auth-token": localStorage.getItem("auth-token"),
       },
       body: JSON.stringify({ title, description, tag }),
     });
-    const json = response.json();
+
     let newNote = JSON.parse(JSON.stringify(notes));
     // logic to edit in client
     for (let index = 0; index < newNote.length; index++) {
@@ -87,15 +83,13 @@ const NoteState = (props) => {
 
   // delete notes
   const deleteNote = async (id) => {
-const response = await fetch(`${host}/api/notes/deletenote/${id}`, {
-  method: "DELETE",
-  headers: {
-    "Content-Type": "application/json",
-    "auth-token":
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjU3MzA2ZDBjNmY5MjcyNmM1ZjhhNDBjIn0sImlhdCI6MTcwMjEyNTU1OH0.In_mAVK3jKBfYcyjiAO7Xf3-JfFZH0YvtIiaVVhfIoM",
-  },
-});
-const json = response.json();
+    await fetch(`${host}/api/notes/deletenote/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "auth-token": localStorage.getItem("auth-token"),
+      },
+    });
 
     const newNote = notes.filter((note) => {
       return note._id !== id;

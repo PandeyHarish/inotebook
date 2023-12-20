@@ -3,15 +3,21 @@ import noteContext from "../context/notes/NotesContext";
 import NoteItem from "./NoteItem";
 import AddNote from "./AddNote";
 import EditModal from "./EditModal";
+import { useNavigate } from "react-router-dom";
 
 const Note = (props) => {
-  const { notes, getNotes,editNote } = useContext(noteContext);
+  let history = useNavigate();
+  const { notes, getNotes, editNote } = useContext(noteContext);
   const [showModal, setShowModal] = useState(false);
-  const [note, setNote] = useState({id:"", title: "", description: "", tag: "" });
-  const {showAlert}=props;
+  const [note, setNote] = useState({ id: "", title: "", description: "", tag: "" });
+  const { showAlert } = props;
 
   useEffect(() => {
-    getNotes();
+    if (localStorage.getItem("auth-token")) {
+      getNotes();
+    } else {
+      history("/login");
+    }
     // eslint-disable-next-line
   }, []);
 
@@ -26,7 +32,7 @@ const Note = (props) => {
   const handleFormSubmit = (event) => {
     event.preventDefault();
     editNote(note.id, note.edittitle, note.editdescription, note.edittag);
-    showAlert("Note updated successfully","success");
+    showAlert("Note updated successfully", "success");
     closeModal();
   };
   const onChange = (e) => {
@@ -43,7 +49,7 @@ const Note = (props) => {
     <>
       <div className="container my-4">
         <EditModal showModal={showModal} closeModal={closeModal} handleFormSubmit={handleFormSubmit} onChange={onChange} note={note} />
-        <AddNote showAlert={showAlert}/>
+        <AddNote showAlert={showAlert} />
 
         <h1>Your Notes</h1>
         <div className="container text-center ">

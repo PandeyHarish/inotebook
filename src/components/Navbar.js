@@ -1,8 +1,16 @@
 import  {Link}  from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import React from "react";
 
-const Navbar = () => {
+const Navbar = ({showAlert}) => {
+    let history = useNavigate();
+    const handlelogout = ()=>{
+      localStorage.removeItem("auth-token")
+      showAlert("Logged out successfully", "success");
+      history("/login");
+    }
+
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container-fluid">
@@ -33,10 +41,10 @@ const Navbar = () => {
               </Link>
             </li>
           </ul>
-          <div>
+         { !localStorage.getItem("auth-token")?<div>
             <Link role="button" className="btn btn-primary mx-1" to="/login">Login</Link>
             <Link role="button" className="btn btn-primary mx-1" to="/signup">SignUp</Link>
-          </div>
+          </div>: <button className="btn btn-primary" onClick={handlelogout}>Logout</button>}
         </div>
       </div>
     </nav>
